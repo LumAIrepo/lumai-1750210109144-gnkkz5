@@ -1,0 +1,74 @@
+```toml
+[features]
+seeds = false
+skip-lint = false
+resolution = true
+anchor-debug = true
+
+[programs.localnet]
+streamflow = "11111111111111111111111111111112"
+
+[programs.devnet]
+streamflow = "strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m"
+
+[programs.mainnet]
+streamflow = "strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+build = "anchor build"
+deploy = "anchor deploy"
+upgrade = "anchor upgrade"
+verify = "anchor verify"
+
+[test]
+startup_wait = 5000
+shutdown_wait = 2000
+upgradeable = false
+
+[[test.genesis]]
+address = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+program = "tests/fixtures/metadata.so"
+
+[[test.genesis]]
+address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+program = "tests/fixtures/spl_token.so"
+
+[[test.genesis]]
+address = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+program = "tests/fixtures/spl_associated_token_account.so"
+
+[test.validator]
+url = "https://api.devnet.solana.com"
+clone = [
+    { address = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s" },
+    { address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA" },
+    { address = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL" },
+    { address = "11111111111111111111111111111112" },
+]
+
+[test.validator.account]
+address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+filename = "tests/fixtures/spl_token-keypair.json"
+
+[workspace]
+members = [
+    "programs/*"
+]
+resolver = "2"
+
+[workspace.dependencies]
+anchor-lang = "0.29.0"
+anchor-spl = "0.29.0"
+solana-program = "~1.16.0"
+spl-token = "4.0.0"
+spl-associated-token-account = "2.2.0"
+mpl-token-metadata = "3.2.0"
+```
